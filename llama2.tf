@@ -51,3 +51,10 @@ resource "google_kms_crypto_key_iam_member" "crypto_key" {
   role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
   member        = "serviceAccount:service-${data.google_project.cng.number}@gcp-sa-aiplatform.iam.gserviceaccount.com"
 }
+
+resource "google_project_iam_binding" "network_user" {
+  project = data.google_project.cng.id
+  role    = "roles/aiplatform.user"
+
+  members = ["serviceAccount:${google_service_account.fastapi.email}"]
+}
