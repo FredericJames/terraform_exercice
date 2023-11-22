@@ -15,6 +15,12 @@ resource "google_project_iam_binding" "instance_user" {
 
   members = ["serviceAccount:${google_service_account.fastapi.email}"]
 }
+resource "google_project_iam_binding" "network_user" {
+  project = data.google_project.cng.id
+  role    = "roles/compute.networkUser"
+
+  members = ["serviceAccount:${google_service_account.fastapi.email}"]
+}
 
 resource "google_sql_database_instance" "instance" {
   name             = "cng"
