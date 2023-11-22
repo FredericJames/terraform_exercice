@@ -1,7 +1,7 @@
 resource "google_cloud_run_v2_service" "reactjs" {
   name     = "reactjs-service"
   location = "us-central1"
-  ingress = "INGRESS_TRAFFIC_ALL"
+  ingress  = "INGRESS_TRAFFIC_ALL"
 
   template {
     scaling {
@@ -9,15 +9,15 @@ resource "google_cloud_run_v2_service" "reactjs" {
     }
 
     containers {
-        image = var.reactjs_image
-        ports {
-            container_port = 3000
-        }
+      image = var.reactjs_image
+      ports {
+        container_port = 3000
+      }
     }
   }
 
   traffic {
-    type = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
+    type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
     percent = 100
   }
 }
