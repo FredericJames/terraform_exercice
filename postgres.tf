@@ -1,6 +1,19 @@
 resource "google_service_account" "fastapi" {
-  account_id = "fastapi"
+  account_id = "fast-api"
   display_name = "fastapi"
+}
+
+resource "google_project_iam_binding" "sql_client" {
+  project = data.google_project.cng.id
+  role = "roles/cloudsql.client"
+
+  members = ["serviceAccount:${google_service_account.fastapi.email}"]
+}
+resource "google_project_iam_binding" "instance_user" {
+  project = data.google_project.cng.id
+  role = "roles/cloudsql.instanceUser"
+
+  members = ["serviceAccount:${google_service_account.fastapi.email}"]
 }
 
 resource "google_sql_database_instance" "instance" {
@@ -9,6 +22,10 @@ resource "google_sql_database_instance" "instance" {
   database_version = "POSTGRES_14"
   settings {
     tier = "db-f1-micro"
+    database_flags {
+      name  = "cloudsql.iam_authentication"
+      value = "on"
+    }
   }
   deletion_protection  = "false"
 }

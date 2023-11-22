@@ -1,5 +1,5 @@
 resource "google_cloud_run_v2_service" "reactjs" {
-  name     = "reactjs"
+  name     = "reactjs-service"
   location = "us-central1"
   ingress = "INGRESS_TRAFFIC_ALL"
 
@@ -9,7 +9,7 @@ resource "google_cloud_run_v2_service" "reactjs" {
     }
 
     containers {
-        image = "fredericjames23/reactjs:latest"
+        image = var.reactjs_image
         ports {
             container_port = 3000
         }

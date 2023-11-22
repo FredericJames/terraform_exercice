@@ -10,7 +10,7 @@ resource "google_cloud_run_v2_service" "fastapi" {
 
     containers {
       name  = "fastapi"
-      image = "fredericjames23/fastapi:latest"
+      image = var.fastapi_image
       ports {
         container_port = 8000
       }
